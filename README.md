@@ -1,2 +1,1 @@
-**Coronae** é uma rede inteligente que realiza as mais diversas conexões com plataformas web (Django,Rails,PHP...) por meio de requisições
-HTTP com objetos JSON, trazendo uniformidade em todas as integrações. A versão atual do Coronae é 0.1.1.
+**Dinamo** é uma biblioteca em Python para criação de animações interativas e interligadas por meio da Internet. Sua versão atual é 0.4.0.
