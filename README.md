@@ -1,4 +1,2 @@
-dinamo
-======
-
-Python library for animations and interactive networked experiences 
+**Coronae** é uma rede inteligente que realiza as mais diversas conexões com plataformas web (Django,Rails,PHP...) por meio de requisições
+HTTP com objetos JSON, trazendo uniformidade em todas as integrações. A versão atual do Coronae é 0.1.1.
