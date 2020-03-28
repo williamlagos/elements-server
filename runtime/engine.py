@@ -133,7 +133,7 @@ class Handler(BaseHandler):
         width = size[0]
         height = size[1]
         gamespace = Space()
-        pygame.display.set_caption("Zhockon SDL")
+        pygame.display.set_caption("elements SDL")
     def load_sound(self,archive):
         try:
             raise NotImplementedError

@@ -3,12 +3,12 @@
 # 
 # Copyright (C) 2009-2011 William Oliveira de Lagos <william.lagos@icloud.com>
 #
-# elements is free software: you can redistribute it and/or modify
+# Elements is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# elements is distributed in the hope that it will be useful,
+# Elements is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
@@ -53,12 +53,12 @@
 # 		node = self.search(object)
 # 		sys.path.append(node.get_item().get_path())
 # 	def enable_all(self):
-# 		self.zhockon_all_nodes(self.root)
+# 		self.elements_all_nodes(self.root)
 # 	def enable_all_nodes(self,node):
 # 		if(node != None):
 # 			sys.path.append(node.get_item().get_path())
-# 			self.zhockon_all_nodes(node.from_left())
-# 			self.zhockon_all_nodes(node.from_right())
+# 			self.elements_all_nodes(node.from_left())
+# 			self.elements_all_nodes(node.from_right())
 # 	def disable_some(self,name):
 # 		cont = len(sys.path)-1
 # 		spath = os.path.abspath(name)

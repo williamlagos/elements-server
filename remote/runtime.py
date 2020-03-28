@@ -2,7 +2,7 @@
 #
 # This file is part of Coronae project.
 # 
-# Copyright (C) 2009-2012 William Oliveira de Lagos <william.lagos1@gmail.com>
+# Copyright (C) 2009-2012 William Oliveira de Lagos <william.lagos@icloud.com>
 #
 # Coronae is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

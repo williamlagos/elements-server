@@ -1,20 +1,20 @@
 #
-# This file is part of Zhockon Platform project.
+# This file is part of elements project.
 # 
-# Copyright (C) 2009-2011 William Oliveira de Lagos <william.lagos1@gmail.com>
+# Copyright (C) 2009-2011 William Oliveira de Lagos <william.lagos@icloud.com>
 #
-# Zhockon is free software: you can redistribute it and/or modify
+# Elements is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Zhockon is distributed in the hope that it will be useful,
+# Elements is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with Zhockon.  If not, see <http://www.gnu.org/licenses/>.
+# along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 import sys,os,ConfigParser,pickle
@@ -80,7 +80,7 @@ class Core():
         version = versnow.vers
         month = versnow.month
         year = versnow.year
-        print("Zhockon Platform Alpha %s")%(version)
+        print("elements Platform Alpha %s")%(version)
         print("Updated in %s/%s.")%(month,year)
         verfile.close()
     def configure_core(self,option=0):
@@ -91,7 +91,7 @@ class Core():
         else:
             cfg.change_conf("activate")
     def test_libs(self,times = 0):
-        """Do some tests with embedded libs on Zhockon"""
+        """Do some tests with embedded libs on elements"""
         while times < 3:
             print("What do you want to do?\n"
                   "1. Verify if Pygame is installed.\n"
