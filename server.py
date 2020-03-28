@@ -17,19 +17,19 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import tornado.ioloop
-import tornado.web
+from remote.ranking import Node
+from remote.server import Runtime,Coronae
+import sys,json
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Hello, world")
+class NodeSample(Coronae):
+	def get(self):
+		#nodes = Nodes()
+		#nodes.prepare_elements('objects.json')
+		#self.write('<pre>'+self.to_json(nodes.elements)+' %i</pre>'%nodes.tree.depth)
+		self.write('<pre>%s</pre>'%json.load(open('elements.json')))
 
-def make_app():
-    return tornado.web.Application([
-        (r"/", MainHandler),
-    ])
+def main(argv):
+	runtime = Runtime([('/',NodeSample)])
+	runtime.run()
 
-if __name__ == "__main__":
-    app = make_app()
-    app.listen(8888)
-    tornado.ioloop.IOLoop.current().start()
+if __name__ == "__main__": main(sys.argv)
