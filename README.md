@@ -1,1 +1,1 @@
-**Dinamo** é uma biblioteca em Python para criação de animações interativas e interligadas por meio da Internet. Sua versão atual é 0.4.0.
+**elements** É uma biblioteca em Python para criação de animações interativas e interligadas por meio da Internet.
