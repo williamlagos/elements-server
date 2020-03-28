@@ -1,5 +1,5 @@
 #
-# This file is part of elements Foundation.
+# This file is part of elements project.
 # 
 # Copyright (C) 2009-2011 William Oliveira de Lagos <william.lagos@icloud.com>
 #
@@ -16,31 +16,3 @@
 # You should have received a copy of the GNU General Public License
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-import platform
-
-class Sound:
-    def __init__(self):
-        self.zkn = platform.load('audio')
-        self.sounds = []
-    def archive(self,file):
-        self.sounds.append(zkn.load_sound(file))
-    def play(self,namefile):
-        for s in sounds:
-            if namefile is s:
-                zkn.play_sound(file)
-    def stop_one(self,namefile):
-        for s in sounds:
-            if namefile is s:
-                zkn.stop_sound(file)
-    def stop(self):
-        for s in sounds:
-            zkn.stop_sound(file)
-
-class Music:
-    def __init__(self):
-        pass
-    
-class Effects:
-    def __init__(self):
-        pass

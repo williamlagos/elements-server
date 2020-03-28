@@ -1,21 +1,90 @@
 #
-# This file is part of Dinamo project.
+# This file is part of elements project.
 # 
-# Copyright (C) 2009-2013 William Oliveira de Lagos <william@efforia.com.br>
+# Copyright (C) 2009-2011 William Oliveira de Lagos <william.lagos@icloud.com>
 #
-# Dinamo is free software: you can redistribute it and/or modify
+# Elements is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Dinamo is distributed in the hope that it will be useful,
+# Elements is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with Dinamo.  If not, see <http://www.gnu.org/licenses/>.
+# along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+compat = {
+		'audio': 	('sdl',['openal']),
+		'graphics': ('sdl',['opengl']),
+		'elements': ('sdl',['opengl']),
+		'physics': 	('sdl',['opencl']),
+		'network': 	('sdl',['']),
+		}
+
+def select(package,library):
+	choices = compat[package][1]
+	antique = compat[package][0]
+	choices.insert(0,antique)
+	choices.remove(library)
+	compat[package] = [library,choices]
+def save():
+	pass
+def load(package):
+	library = compat[package][0]
+	if library is 'sdl':
+		from libs.sdl import Handler
+	elif library is 'opengl':
+		from libs.opengl import Handler
+	elif library is 'openal':
+		from libs.opengl import Handler
+	#elif library is 'opencl':
+	#	from libs.opencl import Handler
+	else:
+		from libs.base import BaseHandler as Handler
+	handler = Handler()
+	return handler
+
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
+class Camera:
+    def __init__(self):
+        try:
+            raise NotImplementedError
+        except NotImplementedError, e:
+            print "Option not already implemented."
+class Depth:
+    def __init__(self):
+        pass
+    def draw_polygon(self,points,colors,verts,edges):
+        allpoints = zip(points,colors)
+        glBegin(GL_QUADS)
+        for face in verts:
+            for vert in face:
+                pos, color = allpoints[vert]
+                glColor3fv(color)
+                glVertex3fv(pos)
+        glEnd()
+        glColor3f(1.0, 1.0, 1.0)
+        glBegin(GL_LINES)
+        for line in edges:
+            for vert in line:
+                pos, color = allpoints[vert]
+                glVertex3fv(pos)
+        glEnd()
+
+class Handler(BaseHandler):
+    def __init__(self):
+        pass
+    def test_opengl(self):
+        try:
+            raise NotImplementedError
+        except NotImplementedError, e:
+            print "Option not already implemented."
 
 from base import BaseHandler
 from pygame import *
@@ -202,4 +271,3 @@ class Handler(BaseHandler):
         objects.update(); objects.draw(self.video.screen)
         self.video.update()
         
-

@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 #
-# This file is part of elements Foundation.
+# This file is part of elements project.
 # 
 # Copyright (C) 2009-2011 William Oliveira de Lagos <william.lagos@icloud.com>
 #
@@ -17,4 +18,19 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import platform
+# from engine.ranking import Nodes
+from remote.server import Runtime,Coronae
+import sys,json
+
+class NodeSample(Coronae):
+	def get(self):
+		# nodes = Nodes()
+		# nodes.prepare_elements('objects.json')
+		# self.write('<pre>'+self.to_json(nodes.elements)+' %i</pre>'%nodes.tree.depth)
+		self.write('<pre>%s</pre>'%json.load(open('elements.json')))
+
+def main(argv):
+	runtime = Runtime([('/',NodeSample)])
+	runtime.run()
+
+if __name__ == "__main__": main(sys.argv)
