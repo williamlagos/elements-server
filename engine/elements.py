@@ -17,9 +17,13 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import platform
-from graphics import *
-from physics import *
+import os
+# import platform
+# from .graphics import *
+# from .physics import *
+
+def handle_collisions(element, group):
+	return []
 
 def change_score(space,element,group,discount):
     if len(handle_collisions(element,group)) > 1:
@@ -27,8 +31,8 @@ def change_score(space,element,group,discount):
 def best_score(space,character,group):
     try:
         raise NotImplementedError
-    except NotImplementedError, e:
-        print "Option not already implemented."
+    except NotImplementedError:
+        print("Option not already implemented.")
 
 class Element():
 	def __init__(self,token,name):
@@ -59,8 +63,8 @@ class ElementSprite():
 		self.element_image(figure,size[0],size[1])
 	def element_image(self,figure,width,height):
 		figure = os.path.abspath(os.path.join("euphoria",figure))
-                self.image = pygame.image.load(figure).convert()
-                self.rect = Rect(self.pos[0],self.pos[1],height,width)
+		# self.image = pygame.image.load(figure).convert()
+		# self.rect = Rect(self.pos[0],self.pos[1],height,width)
 	def hurt(self,wound):
 		'''Reduces character's hit points'''
 		self.hitpoints -= wound

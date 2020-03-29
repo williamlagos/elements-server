@@ -18,6 +18,8 @@
 #
 
 import os,sys
+# import os,sys,json
+# from elements import Element
 
 class Node:
 	def __init__(self,object):
@@ -66,7 +68,7 @@ class Tree:
 	def count(self):
 		return self.cnt
 	def read(self):
-		return self.read_nodes(self.root)
+		return self.read_node(self.root)
 	def read_node(self,node):
 		list = ""
 		if(node != None):
@@ -142,7 +144,7 @@ class AVLTree(Tree):
 		return target
 	def width(self):
 		pass
-	def path(self,object):
+	def get_path(self):
 		pass
 	def rotate_left(self):
 		pass
@@ -160,9 +162,6 @@ class Extensor(Module):
 
 class Creator(Module):
 	pass
-
-# import os,sys,json
-# from elements import Element
 
 # class Nodes():
 # 	def __init__(self):

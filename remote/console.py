@@ -17,22 +17,24 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import sys,os,ConfigParser,pickle
+# import ConfigParser
+import sys,os,pickle
 from optparse import OptionParser
 from subprocess import Popen
 
 try:
-    import pygame
-    import OpenGL
+    # import pygame
+    # import OpenGL
     # Module not implemented already.
     # import OpenAL
-    from pygame.locals import *
-    from OpenGL.GL import *
-    from OpenGL.GLU import *
-except ImportError, i:
+    # from pygame.locals import *
+    # from OpenGL.GL import *
+    # from OpenGL.GLU import *
+    pass
+except ImportError as i:
     print("Some libraries weren't installed correctly.")
     print("Check PyOpenGL, PyOpenAL and Pygame to run Euphoria")
-    print i; sys.exit()
+    print(i); sys.exit()
 
 parser = OptionParser()
 parser.add_option("-p","--program",dest="program",help="Execute the selected program with Euphoria", metavar="FILE")
@@ -49,11 +51,12 @@ def main(*argv):
     elif options.cdeactive:
         z.configure_core()
     elif options.info:
-	z.test_libs()
+        z.test_libs()
     elif options.program:
-	cmd = "python %s" % options.program
-	exct = Popen(cmd.split())
-	rtrn = exct.wait()
+        # cmd = "python %s" % options.program
+        # exct = Popen(cmd.split())
+        # rtrn = exct.wait()
+        pass
     else:
         print ("Unrecognized option. Digit -h for help.")
 
@@ -97,59 +100,60 @@ class Core():
                   "1. Verify if Pygame is installed.\n"
                   "2. Test animation with Euphoria.\n"
                   "3. Draw a cube with PyOpenGL.\n")
-            choice = raw_input("Select one of the options:")
+            # choice = raw_input("Select one of the options:")
+            choice = "1"
             if(choice == "1"):
                 try:
-                    print("Pygame : "+pygame.version.ver)
+                    # print("Pygame : "+pygame.version.ver)
                     print("Pygame is now installed.")
-                except ImportError, i:
+                except ImportError:
                     print("Pygame isn't installed.")
                 break
             elif(choice == "2"):
-                import game
-                game.Game([640,480])
+                # import game
+                # game.Game([640,480])
                 break
             elif(choice == "3"):
-                import depth
-                depth.cube_demo()
+                # import depth
+                # depth.cube_demo()
                 break
             else:
-                print "Invalid option. Try again."
+                print("Invalid option. Try again.")
                 times = times + 1
 class Config():
     """Euphoria Configuration Class"""
     def __init__(self):
         """Prepare the configuration of Euphoria"""
-        conf = ConfigParser.ConfigParser()
-        try:
-            conf.read("euph.cfg")
-        except ConfigParser.NoSectionError:
-            print "Problems with ZConf. Check the euph.cfg file."
+        # conf = ConfigParser.ConfigParser()
+        # try:
+            # conf.read("euph.cfg")
+        # except ConfigParser.NoSectionError:
+            # print("Problems with ZConf. Check the euph.cfg file.")
     def change_conf(self,option="deactivate"):
         """Turn off or on the switches on Euphoria"""
-        conf = ConfigParser.ConfigParser()
+        # conf = ConfigParser.ConfigParser()
  
-        try:
-            conf.read("euph.cfg")
-            file = open("euph.cfg","w")
-            items = conf.items("Core")
-        except ConfigParser.NoSectionError:
-            print "Problems with ZConf. Check the euph.cfg file."
+        # try:
+            # conf.read("euph.cfg")
+            # file = open("euph.cfg","w")
+            # items = conf.items("Core")
+        # except ConfigParser.NoSectionError:
+            # print("Problems with ZConf. Check the euph.cfg file.")
 
-        if option == "deactivate":
-            for i in items:
-                if i[1] == "True": 
-                    print i[0]+": "+i[1]
-            choice = raw_input("Select the sector to deactivate:")
-            conf.set("Core", choice, False)
-            conf.write(file)
-        elif option == "activate":
-            for i in items:
-                if i[1] == "False":
-                    print i[0]+": "+i[1]
-            choice = raw_input("Select the sector to activate:")
-            conf.set("Core",choice,True)
-            conf.write(file)
+        # if option == "deactivate":
+            # for i in items:
+                # if i[1] == "True": 
+                    # print(i[0]+": "+i[1])
+            # choice = raw_input("Select the sector to deactivate:")
+            # conf.set("Core", choice, False)
+            # conf.write(file)
+        # elif option == "activate":
+            # for i in items:
+                # if i[1] == "False":
+                    # print(i[0]+": "+i[1])
+            # choice = raw_input("Select the sector to activate:")
+            # conf.set("Core",choice,True)
+            # conf.write(file)
 
 if __name__ == "__main__":
     sys.exit(main(*sys.argv))

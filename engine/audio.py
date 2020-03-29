@@ -17,26 +17,27 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import pyopenal as OpenAL
+# import pyopenal as OpenAL
+# import platform
 
-class Handler(BaseHandler):
+class Audio():
     def __init__(self):
         pass
     def load_sound(self,archive):
         try:
             raise NotImplementedError
-        except NotImplementedError, e:
-            print "Option not already implemented."
+        except NotImplementedError:
+            print("Option not already implemented.")
     def stop_sound(self,archive):
         try:
             raise NotImplementedError
-        except NotImplementedError, e:
-            print "Option not already implemented."
-    def benchmark():
+        except NotImplementedError:
+            print("Option not already implemented.")
+    def benchmark(self):
         try:
             raise NotImplementedError
-        except NotImplementedError, e:
-            print "Option not already implemented."        
+        except NotImplementedError:
+            print("Option not already implemented.")        
         # device = openal.alcOpenDevice(None)
         # device = openal.alcOpenDevice("'( ( devices '( native waveout esd sdl alsa arts null ) ) )")
         # context = openal.alcCreateContext (device, (openal.ALC_FREQUENCY, 22050, openal.ALC_INVALID))
@@ -62,55 +63,57 @@ class Handler(BaseHandler):
         # print "Using OpenAL", openal.alGetString(openal.AL_VERSION), "by", openal.alGetString(openal.AL_VENDOR)
         
         # while(1): pass        
-    def test():
-        OpenAL.init()
+    def test(self):
+        # OpenAL.init()
         try:
-            l = OpenAL.Listener(22050)
-            l.position = (0.0, 0.0, 0.0)
-            l.at = (0.0, 0.0, 1.0)
-            l.up = (0.0, 1.0, 0.0)
+            # l = OpenAL.Listener(22050)
+            # l.position = (0.0, 0.0, 0.0)
+            # l.at = (0.0, 0.0, 1.0)
+            # l.up = (0.0, 1.0, 0.0)
             
-            b = OpenAL.WaveBuffer(os.path.join(os.path.dirname(sys.argv[0]), "sword.wav"))
+            # b = OpenAL.WaveBuffer(os.path.join(os.path.dirname(sys.argv[0]), "sword.wav"))
             #b = OpenAL.OggVorbisBuffer("/home/jiba/src/slune/sounds/summum_of_the_light.ogg")
             
-            s = OpenAL.Source()
-            s.position = (0.0, 0.0, 0.0)
-            s.velocity = (0.0, 0.0, 0.0)
-            s.buffer  = b
-            s.looping = 1
+            # s = OpenAL.Source()
+            # s.position = (0.0, 0.0, 0.0)
+            # s.velocity = (0.0, 0.0, 0.0)
+            # s.buffer  = b
+            # s.looping = 1
             
-            s.play()
+            # s.play()
             
             # Move the source further
             
-            z = 0.0
-            while 1:
-                z += 0.5
-                s.position = (0.0, 0.0, z)
-                time.sleep(0.1)
+            # z = 0.0
+            # while 1:
+                # z += 0.5
+                # s.position = (0.0, 0.0, z)
+                # time.sleep(0.1)
                 
-            print 'ok'
-        except RuntimeError, e: print "Unavailable device."
-
-import platform
+            print('ok')
+        except RuntimeError: print("Unavailable device.")
 
 class Sound:
     def __init__(self):
-        self.zkn = platform.load('audio')
+        # self.zkn = platform.load('audio')
         self.sounds = []
     def archive(self,file):
-        self.sounds.append(zkn.load_sound(file))
+        # self.sounds.append(zkn.load_sound(file))
+        pass
     def play(self,namefile):
-        for s in sounds:
-            if namefile is s:
-                zkn.play_sound(file)
+        # for s in sounds:
+            # if namefile is s:
+                # zkn.play_sound(file)
+        pass
     def stop_one(self,namefile):
-        for s in sounds:
-            if namefile is s:
-                zkn.stop_sound(file)
+        # for s in sounds:
+            # if namefile is s:
+                # zkn.stop_sound(file)
+        pass
     def stop(self):
-        for s in sounds:
-            zkn.stop_sound(file)
+        # for s in sounds:
+            # zkn.stop_sound(file)
+        pass
 
 class Music:
     def __init__(self):

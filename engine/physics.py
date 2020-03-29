@@ -18,7 +18,7 @@
 #
 
 import platform
-from graphics import *
+# from .graphics import *
 
 class Space:
 	'''Euphoria Space Class'''
@@ -28,15 +28,18 @@ class Space:
 		self.frames = 30
 	def start_sync(self):
 		'''Start controlling game time'''
-		self.init = pygame.time.get_ticks()
+		# self.init = pygame.time.get_ticks()
+		pass
 	def stop_sync(self):
 		'''Stop controlling game time'''
-		pygame.time.delay(1000/self.frames - (pygame.time.get_ticks() - self.init))
+		# pygame.time.delay(1000/self.frames - (pygame.time.get_ticks() - self.init))
+		pass
 	def handle_collisions(self,sprite,group):
 		'''Handle all sprite collisions in game'''
-		return pygame.sprite.spritecollide(sprite,group,False)
+		# return pygame.sprite.spritecollide(sprite,group,False)
+		pass
 	def handle_event(self, type):
 		try:
 			raise NotImplementedError
-		except NotImplementedError, e:
-			print "Option not already implemented."
+		except NotImplementedError:
+			print("Option not already implemented.")

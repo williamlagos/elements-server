@@ -48,16 +48,17 @@ class Coronae(tornado.web.RequestHandler):
 		# return response
 		pass
 	def current_user(self):
-		name = self.get_current_user()
-		user = User.objects.all().filter(username=name)
-		return user[0]
+		# name = self.get_current_user()
+		# user = User.objects.all().filter(username=name)
+		# return user[0]
+		return {}
 	def get_login_url(self):
 		return u"/login"
 	def get_current_user(self):
 		user = self.get_cookie('user')
-		if user: name = re.split('[\s"]+',string.strip(user))[1]
-		else: name = ""
-		return name
+		# if user: name = re.split('r[\s"]+',string.strip(user))[1]
+		# else: name = ""
+		return user
 	def get_object_bydate(self,strptime,token,miliseconds=True):
 		form = ''
 		if miliseconds: form += '.%f'
@@ -65,11 +66,12 @@ class Coronae(tornado.web.RequestHandler):
 		objects,relations = objs['tokens'][token]
 		return now,objects,relations
 	def authenticate(self,username,password):
-		exists = User.objects.filter(username=username)
-		if exists:
-			if exists[0].check_password(password): 
-				return exists
-		else: return None
+		# exists = User.objects.filter(username=username)
+		# if exists:
+			# if exists[0].check_password(password): 
+				# return exists
+		# else: return None
+		return {}
 	def authenticated(self):
 		name = self.get_current_user()
 		if not name: 
