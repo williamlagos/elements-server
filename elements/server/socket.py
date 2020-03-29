@@ -18,7 +18,7 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# from elements.engine.graphics import Handler
+from elements.engine.graphics import Handler
 from tornado.websocket import WebSocketHandler
 
 class SocketHandler(WebSocketHandler):
