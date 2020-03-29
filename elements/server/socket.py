@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #
 # This file is part of elements project.
 # 
@@ -16,3 +17,14 @@
 # You should have received a copy of the GNU General Public License
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+from engine.graphics import Handler
+from tornado.websocket import WebSocketHandler
+
+class Handler(WebSocketHandler):
+    def open(self):
+        print("WebSocket opened")
+    def on_message(self, message):
+        self.write_message(u"You said: " + message)
+    def on_close(self):
+        print("WebSocket closed")
