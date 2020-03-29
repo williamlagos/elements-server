@@ -18,10 +18,10 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from engine.graphics import Handler
+# from elements.engine.graphics import Handler
 from tornado.websocket import WebSocketHandler
 
-class Handler(WebSocketHandler):
+class SocketHandler(WebSocketHandler):
     def open(self):
         print("WebSocket opened")
     def on_message(self, message):

@@ -18,11 +18,14 @@
 #
 
 import os
+
 # from OpenGL.GL import *
 # from OpenGL.GLU import *
 # from base import BaseHandler
 # from pygame import *
 # from pygame.locals import *
+
+from tornado.websocket import WebSocketHandler
 
 images = {}
 modes = [(640,480),(800,600),(1024,768),(1280,800)]
@@ -68,6 +71,95 @@ def load(package):
 		# from libs.base import BaseHandler as Handler
 	handler = Handler()
 	return handler
+
+class Handler:
+    def __init__(self):
+        '''Initialize the game'''
+        # elements = []
+        # video = Video(size)
+        # video.add(self.reconfigure_video(0))
+        # width = size[0]
+        # height = size[1]
+        # gamespace = Space()
+        # pygame.display.set_caption("elements SDL")
+        pass
+    def load_sound(self,archive):
+        try:
+            raise NotImplementedError
+        except NotImplementedError:
+            print("Option not already implemented.")
+    def stop_sound(self,archive):
+        try:
+            raise NotImplementedError
+        except NotImplementedError:
+            print("Option not already implemented.")
+    def start_sync(self):
+        '''Controls the game time'''
+        # self.gamespace.start_sync()
+        pass
+    def stop_sync(self):
+        '''Stops controlling the time'''
+        # self.gamespace.stop_sync()
+        pass
+    def reconfigure_video(self, message):
+        ''''''
+        # if message == 0:
+            # self.width = self.video.size[0]
+            # self.height = self.video.size[1]
+        pass
+    def create_element(self, image, anim, position = [0,0], speed = [1,0]):
+        '''Add a element in the game scenario'''
+        # element = Element(image,anim,position)
+        # element.which_speed(speed)
+        # self.elements.append(element)
+        # element.space = self
+        pass
+    def remove_element(self, element):
+        '''Remove a element in the game scenario'''
+        # if element.type != None:
+            # self.collisions[element.type].remove(element)
+        # self.elements.remove(element)
+        pass
+    def draw_image(self,image,position=[0,0]):
+        '''Draw a image in the game screen'''
+        # img = Image(image,image).image
+        # if position[0] == -1: position[0] = (self.width - image.get_width()) /2
+        # if position[1] == -1: position[1] = (self.height - image.get_height()) /2
+        # self.video.draw(img, position)
+        pass
+    def write_text(self, position, text, color, size = None):
+        '''Write a text in the game screen'''
+        # if size != None:
+            # self.video.font(size)
+        # image = self.video.text(text,color)
+        # if position[0] == -1: position[0] = (self.width - image.get_width()) /2
+        # if position[1] == -1: position[1] = (self.height - image.get_height()) /2
+        # self.draw(position, image)
+        pass
+    def draw_background(self,figure):
+        '''Draw a background image in the game screen'''
+        # self.video.clear()
+        # image = Image("bkg",figure)
+        # self.video.draw(get_image("bkg"),(0,0))
+        pass
+    def draw_elements(self):
+        '''Draw the added elements to game display''' 
+        # for element in self.elements:
+            # if element.visible:
+                # self.video.screen.blit(element.image, element.pos)
+        pass
+    def update(self):
+        '''Animate the game'''
+        #self.video.clear()
+        # objects = pygame.sprite.RenderUpdates(self.elements)
+        # for element in self.elements:
+            # if len(self.gamespace.handle_collisions(element,objects)) > 1:
+                # if ~element.collided:
+                    # element.reverse_speed()
+                # element.collided = True
+        # objects.update(); objects.draw(self.video.screen)
+        # self.video.update()
+        pass
 
 class Camera:
     def __init__(self):
@@ -187,93 +279,3 @@ class Video:
         '''Set the window title'''
         # pygame.display.set_caption(name)
         pass
-
-class Handler():
-    def __init__(self):
-        '''Initialize the game'''
-        # elements = []
-        # video = Video(size)
-        # video.add(self.reconfigure_video(0))
-        # width = size[0]
-        # height = size[1]
-        # gamespace = Space()
-        # pygame.display.set_caption("elements SDL")
-        pass
-    def load_sound(self,archive):
-        try:
-            raise NotImplementedError
-        except NotImplementedError:
-            print("Option not already implemented.")
-    def stop_sound(self,archive):
-        try:
-            raise NotImplementedError
-        except NotImplementedError:
-            print("Option not already implemented.")
-    def start_sync(self):
-        '''Controls the game time'''
-        # self.gamespace.start_sync()
-        pass
-    def stop_sync(self):
-        '''Stops controlling the time'''
-        # self.gamespace.stop_sync()
-        pass
-    def reconfigure_video(self, message):
-        ''''''
-        # if message == 0:
-            # self.width = self.video.size[0]
-            # self.height = self.video.size[1]
-        pass
-    def create_element(self, image, anim, position = [0,0], speed = [1,0]):
-        '''Add a element in the game scenario'''
-        # element = Element(image,anim,position)
-        # element.which_speed(speed)
-        # self.elements.append(element)
-        # element.space = self
-        pass
-    def remove_element(self, element):
-        '''Remove a element in the game scenario'''
-        # if element.type != None:
-            # self.collisions[element.type].remove(element)
-        # self.elements.remove(element)
-        pass
-    def draw_image(self,image,position=[0,0]):
-        '''Draw a image in the game screen'''
-        # img = Image(image,image).image
-        # if position[0] == -1: position[0] = (self.width - image.get_width()) /2
-        # if position[1] == -1: position[1] = (self.height - image.get_height()) /2
-        # self.video.draw(img, position)
-        pass
-    def write_text(self, position, text, color, size = None):
-        '''Write a text in the game screen'''
-        # if size != None:
-            # self.video.font(size)
-        # image = self.video.text(text,color)
-        # if position[0] == -1: position[0] = (self.width - image.get_width()) /2
-        # if position[1] == -1: position[1] = (self.height - image.get_height()) /2
-        # self.draw(position, image)
-        pass
-    def draw_background(self,figure):
-        '''Draw a background image in the game screen'''
-        # self.video.clear()
-        # image = Image("bkg",figure)
-        # self.video.draw(get_image("bkg"),(0,0))
-        pass
-    def draw_elements(self):
-        '''Draw the added elements to game display''' 
-        # for element in self.elements:
-            # if element.visible:
-                # self.video.screen.blit(element.image, element.pos)
-        pass
-    def update(self):
-        '''Animate the game'''
-        #self.video.clear()
-        # objects = pygame.sprite.RenderUpdates(self.elements)
-        # for element in self.elements:
-            # if len(self.gamespace.handle_collisions(element,objects)) > 1:
-                # if ~element.collided:
-                    # element.reverse_speed()
-                # element.collided = True
-        # objects.update(); objects.draw(self.video.screen)
-        # self.video.update()
-        pass
-        
