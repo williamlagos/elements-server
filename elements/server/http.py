@@ -27,7 +27,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.escape
 import socket
-import console
+import elements.server.console
 
 objs = json.load(open('elements.json','r'))
 
