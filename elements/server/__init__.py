@@ -1,6 +1,8 @@
+'''Server package handler'''
+
 #
 # This file is part of elements project.
-# 
+#
 # Copyright (C) 2009-2011 William Oliveira de Lagos <william.lagos@icloud.com>
 #
 # Elements is free software: you can redistribute it and/or modify
@@ -17,4 +19,4 @@
 # along with elements.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__all__ = ["console", "http", "ws"]
+__all__ = ["http", "ws"]
