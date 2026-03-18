@@ -25,6 +25,8 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+.pytest_cache
+htmlcov
 
 # Translations
 *.mo
@@ -35,3 +37,6 @@ nosetests.xml
 .pydevproject
 .vscode
 env
+
+# Python cache
+__pycache__
