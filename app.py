@@ -1,6 +1,7 @@
-'''Elements Game Server – asyncio-powered multiplayer server'''
+"""Elements Game Server – asyncio-powered multiplayer server"""
 
 import uuid
+
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 
 from game.manager import ConnectionManager
@@ -13,19 +14,19 @@ rooms: dict[str, Room] = {}
 
 @app.get("/")
 async def read_root():
-    '''Return server status and basic info'''
+    """Return server status and basic info"""
     return {"status": "online", "server": "Elements Game Server"}
 
 
 @app.get("/rooms")
 async def list_rooms():
-    '''List all active game rooms'''
+    """List all active game rooms"""
     return {"rooms": list(rooms.values())}
 
 
 @app.post("/rooms", status_code=201)
 async def create_room(name: str, max_players: int = 4):
-    '''Create a new game room'''
+    """Create a new game room"""
     room_id = str(uuid.uuid4())
     room = Room(id=room_id, name=name, max_players=max_players)
     rooms[room_id] = room
@@ -34,7 +35,7 @@ async def create_room(name: str, max_players: int = 4):
 
 @app.get("/rooms/{room_id}")
 async def get_room(room_id: str):
-    '''Get details for a specific room'''
+    """Get details for a specific room"""
     if room_id not in rooms:
         raise HTTPException(status_code=404, detail="Room not found")
     return rooms[room_id]
@@ -42,7 +43,7 @@ async def get_room(room_id: str):
 
 @app.websocket("/ws/{room_id}/{player_id}")
 async def websocket_endpoint(websocket: WebSocket, room_id: str, player_id: str):
-    '''WebSocket endpoint for real-time multiplayer game communication'''
+    """WebSocket endpoint for real-time multiplayer game communication"""
     if room_id not in rooms:
         await websocket.close(code=1008)
         return

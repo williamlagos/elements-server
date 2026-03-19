@@ -1,4 +1,4 @@
-'''Tests for the Elements Game Server'''
+"""Tests for the Elements Game Server"""
 
 import pytest
 from fastapi.testclient import TestClient
@@ -10,14 +10,14 @@ client = TestClient(app)
 
 @pytest.fixture(autouse=True)
 def clear_rooms():
-    '''Reset shared room state between tests'''
+    """Reset shared room state between tests"""
     rooms.clear()
     yield
     rooms.clear()
 
 
 def test_read_root():
-    '''Server status endpoint returns online status'''
+    """Server status endpoint returns online status"""
     response = client.get("/")
     assert response.status_code == 200
     data = response.json()
@@ -26,14 +26,14 @@ def test_read_root():
 
 
 def test_list_rooms_empty():
-    '''Room list is empty when no rooms have been created'''
+    """Room list is empty when no rooms have been created"""
     response = client.get("/rooms")
     assert response.status_code == 200
     assert response.json() == {"rooms": []}
 
 
 def test_create_room():
-    '''Creating a room returns the new room object'''
+    """Creating a room returns the new room object"""
     response = client.post("/rooms?name=TestRoom&max_players=2")
     assert response.status_code == 201
     data = response.json()
@@ -44,7 +44,7 @@ def test_create_room():
 
 
 def test_list_rooms_after_creation():
-    '''Created rooms appear in the room list'''
+    """Created rooms appear in the room list"""
     client.post("/rooms?name=Room1")
     response = client.get("/rooms")
     assert response.status_code == 200
@@ -52,7 +52,7 @@ def test_list_rooms_after_creation():
 
 
 def test_get_room():
-    '''Fetching a room by its ID returns correct details'''
+    """Fetching a room by its ID returns correct details"""
     create_response = client.post("/rooms?name=MyRoom")
     room_id = create_response.json()["id"]
 
@@ -63,21 +63,22 @@ def test_get_room():
 
 
 def test_get_room_not_found():
-    '''Requesting a non-existent room returns 404'''
+    """Requesting a non-existent room returns 404"""
     response = client.get("/rooms/nonexistent-id")
     assert response.status_code == 404
 
 
 def test_websocket_unknown_room():
-    '''Connecting to a WebSocket for a missing room closes the connection'''
+    """Connecting to a WebSocket for a missing room closes the connection"""
     from starlette.websockets import WebSocketDisconnect
+
     with pytest.raises(WebSocketDisconnect):
         with client.websocket_connect("/ws/bad-room/player1"):
             pass  # server should close immediately
 
 
 def test_websocket_player_joined_and_left():
-    '''Player join and leave events are broadcast over WebSocket'''
+    """Player join and leave events are broadcast over WebSocket"""
     room_resp = client.post("/rooms?name=WSRoom")
     room_id = room_resp.json()["id"]
 
@@ -91,7 +92,7 @@ def test_websocket_player_joined_and_left():
 
 
 def test_websocket_message_broadcast():
-    '''Messages sent by one player are broadcast back to the room'''
+    """Messages sent by one player are broadcast back to the room"""
     room_resp = client.post("/rooms?name=BroadcastRoom")
     room_id = room_resp.json()["id"]
 
@@ -106,8 +107,9 @@ def test_websocket_message_broadcast():
 
 
 def test_websocket_room_full():
-    '''A player cannot join a full room'''
+    """A player cannot join a full room"""
     from starlette.websockets import WebSocketDisconnect
+
     room_resp = client.post("/rooms?name=FullRoom&max_players=1")
     room_id = room_resp.json()["id"]
 

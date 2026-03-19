@@ -12,13 +12,26 @@ A modern asyncio-powered multiplayer game server built with [FastAPI](https://fa
 ## Requirements
 
 - Python 3.12+
-- Dependencies listed in `requirements.txt`
+- [uv](https://docs.astral.sh/uv/) (recommended) or pip
 
-## Setup
+## Setup with uv (recommended)
 
 ```bash
-python -m venv env
-source env/bin/activate   # Windows: env\Scripts\activate
+# Install uv (one-time)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create virtual env and install all dependencies
+uv sync
+
+# Install including dev dependencies
+uv sync --dev
+```
+
+## Setup with pip (alternative)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
@@ -60,11 +73,23 @@ Connect to `/ws/{room_id}/{player_id}` after creating or choosing a room.
 
 ## Development
 
-Install dev dependencies and run tests:
+### Linting and formatting with ruff
 
 ```bash
-pip install -r requirements-dev.txt
-pytest
+# Check for issues
+uv run ruff check .
+
+# Auto-fix issues
+uv run ruff check --fix .
+
+# Format code
+uv run ruff format .
+```
+
+### Running tests
+
+```bash
+uv run pytest
 ```
 
 ## License

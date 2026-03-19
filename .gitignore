@@ -40,3 +40,6 @@ env
 
 # Python cache
 __pycache__
+
+# Virtual environments (uv / pip)
+.venv

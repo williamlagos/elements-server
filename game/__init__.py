@@ -1,1 +1,1 @@
-'''Game package for Elements multiplayer server'''
+"""Game package for Elements multiplayer server"""
