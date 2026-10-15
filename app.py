@@ -92,11 +92,30 @@ async def read_root():
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint"""
+    import engine
     return {
         "status": "online",
         "engine": "elements",
+        "cpp_accelerated": engine.HAS_CPP_CORE,
         "version": "1.0.0",
         "timestamp": int(time.time())
+    }
+
+
+@app.get("/api/engine/status")
+async def engine_status():
+    """Returns status of C++ Core acceleration and engine primitives"""
+    import engine
+    sample_codes = engine.Codes() if engine.HAS_CPP_CORE else None
+    if sample_codes:
+        sample_codes.white()
+        sample_codes.black()
+    return {
+        "cpp_accelerated": engine.HAS_CPP_CORE,
+        "available_primitives": [
+            "IntMatrix", "FloatMatrix", "Codes", "CppElement", "CppElements"
+        ] if engine.HAS_CPP_CORE else [],
+        "sample_quadtree": sample_codes.print_tree() if sample_codes else None
     }
 
 
