@@ -119,3 +119,82 @@ def test_websocket_room_full():
         with pytest.raises(WebSocketDisconnect):
             with client.websocket_connect(f"/ws/{room_id}/player2"):
                 pass  # server should reject the second player
+
+
+def test_health_and_engine_status():
+    """Health and engine status endpoints report engine metadata"""
+    health = client.get("/api/health")
+    assert health.status_code == 200
+    assert health.json()["engine"] == "elements"
+
+    status = client.get("/api/engine/status")
+    assert status.status_code == 200
+    assert "cpp_accelerated" in status.json()
+
+
+def test_waves_endpoint_returns_formation_and_waves():
+    """Waves endpoint serves canonical or builtin Galaga formation and subwaves"""
+    response = client.get("/api/waves")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["formation"]["cols"] == 10
+    assert data["formation"]["rows"] == 4
+    assert len(data["formation"]["layout"]) == 4
+    assert len(data["waves"]) >= 1
+    assert len(data["waves"][0]["subwaves"]) >= 1
+
+
+def test_gb_sync_validates_dinamo_waves(tmp_path):
+    """gb_sync projects waves onto 20x18 grid and checks actor budget"""
+    import json
+    from engine import gb_sync
+
+    waves_file = tmp_path / "waves.json"
+    waves_file.write_text(
+        json.dumps(
+            {
+                "stage": 1,
+                "formation": {
+                    "cols": 10,
+                    "rows": 4,
+                    "slots": [
+                        {"row": 0, "col": 3, "type": "boss"},
+                        {"row": 0, "col": 4, "type": "boss"},
+                        {"row": 1, "col": 1, "type": "butterfly"},
+                        {"row": 2, "col": 1, "type": "bee"},
+                    ],
+                },
+                "subwaves": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    waves = gb_sync.load_waves(waves_file)
+    report = gb_sync.validate_formation_on_grid(waves)
+    assert report["grid_dims"] == (20, 18)
+    assert report["gb_actor_count"] == 4
+    assert report["within_actor_budget"] is True
+    assert report["quadtree"].startswith("2")
+
+
+def test_sensor_frame_normalization_endpoint():
+    """POST /api/sensors normalizes IMU gyro/accel and SBC environmental readings"""
+    resp = client.post(
+        "/api/sensors",
+        json={
+            "device_id": "rpi-eos-runtime",
+            "gyro": [0.2, 0.5, 0.0],
+            "accel": [4.9, -2.0, 9.8],
+            "proximity": 18.5,
+            "ambient_light": 0.75,
+            "temperature": 24.5,
+        },
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["device_id"] == "rpi-eos-runtime"
+    assert body["has_motion"] is True
+    assert -1.0 <= body["tilt_x"] <= 1.0
+    assert body["tilt_x"] > 0.0
+    assert body["environment"]["proximity"] == 18.5

@@ -69,7 +69,19 @@ class ScoreEntry(BaseModel):
     player: str = Field(..., max_length=5, min_length=1, description="Player initials (e.g. AAA)")
     score: int = Field(..., ge=0, description="Final score achieved")
     stage: int = Field(default=1, ge=1, description="Stage reached")
-    platform: str = Field(default="web", description="Client platform: apple, web, android, gb")
+    platform: str = Field(
+        default="web",
+        description="Client platform: apple, web, android, gb, sdl2, steamdeck, eos-runtime, rpi",
+    )
+
+
+class SensorPayload(BaseModel):
+    device_id: str = Field(default="eos-node-0", description="Source device or SBC identifier")
+    gyro: tuple[float, float, float] = Field(default=(0.0, 0.0, 0.0), description="Gyroscope rad/s (gx, gy, gz)")
+    accel: tuple[float, float, float] = Field(default=(0.0, 0.0, 0.0), description="Accelerometer m/s^2 (ax, ay, az)")
+    proximity: float = Field(default=0.0, description="Proximity / ToF distance reading")
+    ambient_light: float = Field(default=1.0, description="Normalized ambient light level")
+    temperature: float = Field(default=22.0, description="Ambient temperature in Celsius")
 
 
 class LeaderboardResponse(BaseModel):
@@ -113,18 +125,97 @@ async def engine_status():
     return {
         "cpp_accelerated": engine.HAS_CPP_CORE,
         "available_primitives": [
-            "IntMatrix", "FloatMatrix", "Codes", "CppElement", "CppElements"
-        ] if engine.HAS_CPP_CORE else [],
+            "IntMatrix", "FloatMatrix", "Codes", "CppElement", "CppElements", "SensorFrame"
+        ] if engine.HAS_CPP_CORE else ["SensorFrame"],
         "sample_quadtree": sample_codes.print_tree() if sample_codes else None
+    }
+
+
+@app.post("/api/sensors")
+async def process_sensor_frame(payload: SensorPayload):
+    """Normalize IMU gyroscope/accelerometer and SBC environmental telemetry via Elements SensorFrame"""
+    import engine
+
+    frame = engine.SensorFrame()
+    frame.set_gyro(*payload.gyro)
+    frame.set_accel(*payload.accel)
+    frame.set_environment(payload.proximity, payload.ambient_light, payload.temperature)
+    return {
+        "device_id": payload.device_id,
+        "cpp_accelerated": engine.HAS_CPP_CORE,
+        "tilt_x": round(frame.tilt_x, 4),
+        "tilt_y": round(frame.tilt_y, 4),
+        "has_motion": frame.has_motion,
+        "environment": {
+            "proximity": frame.proximity,
+            "ambient_light": frame.ambient_light,
+            "temperature": frame.temperature,
+        },
     }
 
 
 # --- Arcade Waves & Leaderboard Endpoints ---
 
+def load_canonical_waves() -> Optional[dict]:
+    """Load canonical waves.json from DINAMO_WAVES_PATH or sibling dinamo/shared/waves.json."""
+    candidates = []
+    if env_path := os.environ.get("DINAMO_WAVES_PATH"):
+        candidates.append(env_path)
+    candidates.append(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dinamo", "shared", "waves.json"))
+    )
+    for path in candidates:
+        if os.path.isfile(path):
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+    return None
+
+
 @app.get("/api/waves")
 async def get_wave_config():
     """Returns standardized Galaga formation and entrance wave specifications"""
+    canonical = load_canonical_waves()
+    if canonical is not None:
+        formation = canonical.get("formation", {})
+        slots = formation.get("slots") or canonical.get("formationSlots") or []
+        subwaves = canonical.get("subwaves") or []
+        stage = canonical.get("stage", 1)
+
+        # Group slots by (row, type) for compatibility with clients expecting formation.layout
+        grouped: dict[tuple[int, str], dict] = {}
+        for slot in slots:
+            key = (slot["row"], slot["type"])
+            if key not in grouped:
+                grouped[key] = {
+                    "row": slot["row"],
+                    "cols": [],
+                    "type": slot["type"],
+                    "health": slot.get("health", 1),
+                    "points": slot.get("points", 50),
+                    "divePoints": slot.get("divePoints", 100),
+                }
+            grouped[key]["cols"].append(slot["col"])
+
+        return {
+            "source": "dinamo/shared/waves.json",
+            "stage": stage,
+            "formation": {
+                "cols": formation.get("cols", 10),
+                "rows": formation.get("rows", 4),
+                "colSpacing": formation.get("colSpacing", 36),
+                "rowSpacing": formation.get("rowSpacing", 28),
+                "slots": slots,
+                "layout": list(grouped.values()),
+            },
+            "subwaves": subwaves,
+            "waves": [{"waveIndex": stage, "subwaves": subwaves}],
+        }
+
     return {
+        "source": "builtin",
         "formation": {
             "cols": 10,
             "rows": 4,
